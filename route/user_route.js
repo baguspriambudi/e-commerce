@@ -26,7 +26,7 @@ exports.createuser = async (req, res, next) => {
       status: status,
       role: role,
     }).save();
-    respone_ok_data(res, 'Data succesfull inputed', user);
+    respone_ok_data(res, 'Data succesfully inputed', user);
   } catch (error) {
     next(error);
   }
@@ -49,7 +49,7 @@ exports.createadmin = async (req, res, next) => {
       status: status,
       role: role,
     }).save();
-    respone_ok_data(res, 'Data succesfull inputed', user);
+    respone_ok_data(res, 'Data succesfully inputed', user);
   } catch (error) {
     next(error);
   }

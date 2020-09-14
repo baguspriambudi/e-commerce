@@ -26,6 +26,15 @@ mongoose
     console.log(err);
   });
 
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 200,
+    message: 'e-commerce service up and running!',
+    environment: process.env.NODE_ENV,
+    timestamp: new Date(),
+  });
+});
+
 const router = express.Router();
 router.post('/auth/register', schema_mid.midRegister, user_route.createuser);
 router.post('/auth/login', login.login);
