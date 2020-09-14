@@ -1,7 +1,7 @@
-const JWT = require("jsonwebtoken");
+const JWT = require('jsonwebtoken');
 const JWT_Secret = process.env.JWT_KEY;
-const bcrypt = require("bcrypt");
-const User = require("../model/User");
+const bcrypt = require('bcrypt');
+const User = require('../model/User');
 const {
   respone_ok_data,
   validasi,
@@ -9,7 +9,7 @@ const {
   forbidden,
   data_notfound,
   authorized,
-} = require("../help/http_respone");
+} = require('../helper/http_response');
 
 exports.createuser = async (req, res, next) => {
   try {
@@ -17,7 +17,7 @@ exports.createuser = async (req, res, next) => {
     const finduser = await User.findOne({ username: username.toLowerCase() });
 
     if (finduser) {
-      validasi(res, "username already exist");
+      validasi(res, 'username already exist');
     }
     const passwordHash = bcrypt.hashSync(password, 10);
     const user = await new User({
@@ -26,7 +26,7 @@ exports.createuser = async (req, res, next) => {
       status: status,
       role: role,
     }).save();
-    respone_ok_data(res, "Data succesfull inputed", user);
+    respone_ok_data(res, 'Data succesfull inputed', user);
   } catch (error) {
     next(error);
   }
