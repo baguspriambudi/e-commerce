@@ -10,6 +10,7 @@ const schema_mid = require('./midlleware/schema');
 const auth_mid = require('./midlleware/auth');
 
 const user_route = require('./route/user_route');
+const merchant_route = require('./route/merchant_router');
 const login = require('./route/login_route');
 const upgrade = require('./route/upgrade_route');
 
@@ -41,6 +42,7 @@ app.get('/', (req, res) => {
 const router = express.Router();
 router.post('/auth/register', schema_mid.midRegister, user_route.createuser);
 router.post('/auth/login', login.login);
+router.post('/merchant/create', auth_mid.isUser, schema_mid.midMercahnt, merchant_route.createmerchant);
 router.post('/auth/user_upgrade', auth_mid.isAdmin, upgrade.upgrade_user);
 app.use('/api/v1', router);
 
