@@ -14,7 +14,7 @@ exports.upgrade_user = async (req, res, next) => {
     if (!user) {
       return data_notfound(res, 'user not found');
     }
-    const upgrade = await User.findOneAndUpdate({ _id: req.query._id }, { premium: req.body.premium }, { new: true });
+    const upgrade = await User.findOneAndUpdate({ _id: req.query.id }, { premium: req.body.premium }, { new: true });
     respone_ok_data(res, 'succesfully update premium', upgrade);
   } catch (error) {
     next(error);
