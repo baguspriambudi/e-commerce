@@ -18,7 +18,7 @@ exports.createmerchant = async (req, res, next) => {
       rekening: rekening,
     }).save();
     if (merchant) {
-      await User.updateOne({ _id: finduser }, { status: 'pending' });
+      await User.updateOne({ _id: finduser }, { premium: 'pending' });
     }
     respone_ok_data(res, 'Data merchant succesfull inputed, wait confirm from admin', merchant);
   } catch (error) {

@@ -17,7 +17,6 @@ exports.midRegister = (req, res, next) => {
 
 exports.midMercahnt = (req, res, next) => {
   const schema = Joi.object({
-    user: Joi.string().required(),
     name: Joi.string().required(),
     description: Joi.string().required(),
     name_bank: Joi.string().required(),
