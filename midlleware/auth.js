@@ -1,5 +1,5 @@
 const JWT = require('jsonwebtoken');
-const JWTsekret = process.env.JWT_KEY;
+const JWTsecret = process.env.JWT_KEY;
 const User = require('../model/User');
 const { forbidden, authorized, validasi_data } = require('../help/http_respone');
 
@@ -11,7 +11,7 @@ exports.isAdmin = async (req, res, next) => {
     }
 
     const token = headers.split(' ')[1];
-    const decode = JWT.verify(token, JWTsekret);
+    const decode = JWT.verify(token, JWTsecret);
     req.user = decode;
 
     const admin = await User.findById({ _id: req.user._id });
@@ -32,7 +32,7 @@ exports.isUser = async (req, res, next) => {
     }
 
     const token = headers.split(' ')[1];
-    const decode = JWT.verify(token, JWTsekret);
+    const decode = JWT.verify(token, JWTsecret);
     req.user = decode;
 
     const find = await User.findById({ _id: req.user._id });
