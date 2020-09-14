@@ -1,0 +1,2 @@
+wildan : buat model toko,  create toko , joi schema toko
+suneo : buat model upgrade, create upgrade, joi schema upgrade, endpoint posting product 
