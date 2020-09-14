@@ -1,7 +1,7 @@
 const JWT = require('jsonwebtoken');
 const JWTsecret = process.env.JWT_KEY;
 const User = require('../model/User');
-const { forbidden, authorized, validasi_data } = require('../help/http_respone');
+const { forbidden, authorized, validasi_data } = require('../helper/http_response');
 
 exports.isAdmin = async (req, res, next) => {
   try {
