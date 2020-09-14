@@ -6,9 +6,12 @@ const PORT = 4000;
 const dotenv = require('dotenv');
 dotenv.config();
 
+const schema_mid = require('./midlleware/schema');
+const auth_mid = require('./midlleware/auth');
+
 const user_route = require('./route/user_route');
 const login = require('./route/login_route');
-const schema_mid = require('./midlleware/schema');
+const upgrade = require('./route/upgrade_route');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,6 +41,7 @@ app.get('/', (req, res) => {
 const router = express.Router();
 router.post('/auth/register', schema_mid.midRegister, user_route.createuser);
 router.post('/auth/login', login.login);
+router.post('/auth/user_upgrade', auth_mid.isAdmin, upgrade.upgrade_user);
 app.use('/api/v1', router);
 
 app.use((req, res, next) => {
