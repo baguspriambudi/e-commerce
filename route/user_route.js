@@ -13,7 +13,7 @@ const {
 
 exports.createuser = async (req, res, next) => {
   try {
-    const { username, password, status, role } = req.body;
+    const { username, password, role } = req.body;
     const finduser = await User.findOne({ username: username.toLowerCase() });
 
     if (finduser) {
@@ -23,7 +23,6 @@ exports.createuser = async (req, res, next) => {
     const user = await new User({
       username: username,
       password: passwordHash,
-      status: status,
       role: role,
     }).save();
     respone_ok_data(res, 'Data succesfully inputed', user);
@@ -35,8 +34,6 @@ exports.createuser = async (req, res, next) => {
 exports.createadmin = async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    const status = 'upgrade';
-    const role = 'admin';
     const finduser = await User.findOne({ username: username.toLowerCase() });
 
     if (finduser) {
@@ -46,8 +43,8 @@ exports.createadmin = async (req, res, next) => {
     const user = await new User({
       username: username,
       password: passwordHash,
-      status: status,
-      role: role,
+      premium: 'none',
+      role: 'admin',
     }).save();
     respone_ok_data(res, 'Data succesfully inputed', user);
   } catch (error) {
