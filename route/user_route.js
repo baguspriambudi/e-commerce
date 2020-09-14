@@ -1,7 +1,7 @@
-const JWT = require("jsonwebtoken");
+const JWT = require('jsonwebtoken');
 const JWT_Secret = process.env.JWT_KEY;
-const bcrypt = require("bcrypt");
-const User = require("../model/User");
+const bcrypt = require('bcrypt');
+const User = require('../model/User');
 const {
     respone_ok_data,
     validasi,
@@ -9,7 +9,8 @@ const {
     forbidden,
     data_notfound,
     authorized,
-} = require("../help/http_respone");
+} = require('../helper/http_response');
+
 
 exports.createuser = async (req, res, next) => {
     try {
@@ -53,4 +54,4 @@ exports.createadmin = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-};
+}

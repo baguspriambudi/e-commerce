@@ -1,11 +1,11 @@
 const JWT = require('jsonwebtoken');
-const JWTsekret = process.env.JWT_KEY
+const JWTsekret = process.env.JWT_KEY;
 const bcrypt = require('bcrypt');
 const User = require('../model/User');
-const { data_notfound, authorized, respone_ok_data } = require('../help/http_respone')
-
+const { data_notfound, authorized, respone_ok_data } = require('../helper/http_response');
 
 exports.login = async (req, res, next) => {
+
     try {
         const { username, password } = req.body
         const login = await User.findOne({ username: username })
