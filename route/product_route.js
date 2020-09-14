@@ -12,7 +12,7 @@ const {
 
 exports.createproduct = async (req, res, next) => {
   try {
-    const { name, image, descriptions, stock, merchant } = req.body;
+    const { name, image, descriptions, stock, merchant, price } = req.body;
     const findmerchant = await Merchant.findOne({ _id: req.user._id });
     if (!findmerchant) {
       return data_notfound(res, 'merchant not found');
@@ -27,6 +27,7 @@ exports.createproduct = async (req, res, next) => {
       descriptions: descriptions,
       stock: stock,
       merchant: merchant,
+      price: price,
     }).save();
     respone_ok_data(res, 'successfully create product', product);
   } catch (error) {

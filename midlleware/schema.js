@@ -55,6 +55,7 @@ exports.midProduct = (req, res, next) => {
     description: Joi.string().required(),
     stock: Joi.string().required(),
     merchant: Joi.objectId().required(),
+    price: Joi.number().required(),
   }).options({ abortEarly: false });
 
   const { error } = schema.validate(req.body);
