@@ -5,6 +5,8 @@ const morgan = require('morgan')
 const PORT = 4000
 const dotenv = require('dotenv')
 
+const login = require('./route/login_route')
+
 dotenv.config()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -23,6 +25,7 @@ mongoose
     });
 
 const router = express.Router()
+router.post('/auth/login', login.login)
 app.use('/api/v1', router)
 
 app.use((req, res, next) => {
