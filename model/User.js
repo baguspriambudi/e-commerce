@@ -9,6 +9,7 @@ const Userschema = mongoose.Schema({
     enum: ['accept', 'none', 'pending', 'reject'],
   },
   role: { type: String, default: 'user', enum: ['user', 'admin'] },
+  wallet: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model('User', Userschema);
