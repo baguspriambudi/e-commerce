@@ -10,7 +10,7 @@ exports.midRegister = (req, res, next) => {
 
   const { error } = schema.validate(req.body);
   if (error) {
-    return validasi_data("Validation Error", res, error.details);
+    return validasi_data(res, "Validation Error", error.details);
   }
   next();
 };
