@@ -1,5 +1,6 @@
 const Product = require('../model/Product');
 const User = require('../model/User');
+const Merchant = require('../model/Merchant');
 const {
   respone_ok_data,
   validasi,
@@ -11,9 +12,23 @@ const {
 
 exports.createproduct = async (req, res, next) => {
   try {
-    const { name, image, descriptions, stock } = req.body;
-    const user = await User.findOne({});
-    const product = await new Product({ name: name, image: image, descriptions: descriptions, stock: stock }).save();
+    const { name, image, descriptions, stock, merchant } = req.body;
+    const findmerchant = await Merchant.findOne({ _id: req.user._id });
+    if (!findmerchant) {
+      return data_notfound(res, 'merchant not found');
+    }
+    const user = await User.findOne({ _id: req.user._id });
+    if (user.premium != 'accept') {
+      return validasi(res, 'the user has not been approced');
+    }
+    const product = await new Product({
+      name: name,
+      image: image,
+      descriptions: descriptions,
+      stock: stock,
+      merchant: merchant,
+    }).save();
+    respone_ok_data(res, 'successfully create product', product);
   } catch (error) {
     next(error);
   }
