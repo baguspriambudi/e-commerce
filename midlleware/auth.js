@@ -15,7 +15,7 @@ exports.isAdmin = async (req, res, next) => {
         req.user = decode
 
         const admin = await User.findById({ _id: req.user._id })
-        if (!req.user._id || req.user.role_id != 'admin') {
+        if (!req.user._id || req.user.role != 'admin') {
             return authorized(res, 'User is not acces')
         }
         next()
@@ -36,7 +36,7 @@ exports.isUser = async (req, res, next) => {
         req.user = decode
 
         const find = await User.findById({ _id: req.user._id })
-        if (!find || req.user.role_id != 'user') {
+        if (!find || req.user.role != 'user') {
             return authorized(res, 'User is not acces')
         }
         next()

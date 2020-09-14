@@ -16,7 +16,7 @@ exports.login = async (req, res, next) => {
         if (!compare) {
             return authorized(res, 'password not match')
         }
-        const token = JWT.sign({ _id: login._id, role_id: login.role_id }, JWTsekret, { expiresIn: '24h' })
+        const token = JWT.sign({ _id: login._id, role: login.role }, JWTsekret, { expiresIn: '24h' })
         respone_ok_data(res, 'succes login', token)
     } catch (error) {
         next(error);
