@@ -42,8 +42,8 @@ app.get('/', (req, res) => {
 const router = express.Router();
 router.post('/auth/register', schema_mid.midRegister, user_route.createuser);
 router.post('/auth/login', login.login);
-router.post('/merchant/create', auth_mid.isUser, schema_mid.midMercahnt, merchant_route.createmerchant);
 router.post('/auth/user_upgrade', auth_mid.isAdmin, upgrade.upgrade_user);
+router.post('/merchant/create', auth_mid.isUser, schema_mid.midMercahnt, merchant_route.createmerchant);
 app.use('/api/v1', router);
 
 app.use((req, res, next) => {
