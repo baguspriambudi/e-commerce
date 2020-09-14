@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Merchant = require('./Merchant');
 
 const productSchema = mongoose.Schema({
   name: { type: String, required: true },

@@ -48,3 +48,19 @@ exports.midUpgradeUser = (req, res, next) => {
   }
   next();
 };
+
+exports.midProduct = (req, res, next) => {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+    image: Joi.string().required(),
+    description: Joi.string().required(),
+    stock: Joi.string().required(),
+    merchant: Joi.objectId().required(),
+  }).options({ abortEarly: false });
+
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return validasi_data(res, 'Validation Error', error.details);
+  }
+  next();
+};
