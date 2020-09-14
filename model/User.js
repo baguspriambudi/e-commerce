@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 const Userschema = mongoose.Schema({
   username: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true },
-  status: {
+  premium: {
     type: String,
-    default: 'non upgrade',
-    enum: ['upgrade', 'non upgrade'],
+    default: 'none',
+    enum: ['accept', 'none', 'pending', 'reject'],
   },
   role: { type: String, default: 'user', enum: ['user', 'admin'] },
 });

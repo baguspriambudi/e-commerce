@@ -9,4 +9,4 @@ const Merchantschema = mongoose.Schema({
   rekening: { type: String, required: true },
 });
 
-module.exports = mongoose.Model('Merchant', Merchantschema);
+module.exports = mongoose.model('Merchant', Merchantschema);
