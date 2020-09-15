@@ -19,7 +19,7 @@ exports.transaksi = async (req, res, next) => {
     const tgl = new Date();
     const find_pembeli = await User.findOne({ _id: pembeli });
     if (!find_pembeli) {
-      return data_notfound(res, 'pembeli not found');
+      return data_notfound(res, 'customer not found');
     }
     const find_product = await Product.findOne({ _id: req.body.product });
     if (!find_product) {
