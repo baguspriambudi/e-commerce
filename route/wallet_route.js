@@ -43,3 +43,15 @@ exports.updatewallet = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.viewuserwallet = async (req, res, next) => {
+  try {
+    const findwallet = await Wallet.findOne({ user: req.user._id }).populate({
+      path: 'user',
+      select: '-password',
+    });
+    respone_ok_data(res, 'fund in your wallet', findwallet);
+  } catch (error) {
+    next(error);
+  }
+};

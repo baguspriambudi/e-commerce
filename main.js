@@ -51,6 +51,7 @@ router.post('/merchant/create', auth_mid.isUser, schema_mid.midMercahnt, merchan
 router.post('/product/create', auth_mid.isUser, schema_mid.midProduct, product.createproduct);
 router.post('/wallet', auth_mid.isUser, schema_mid.midWallet, wallet.wallet);
 router.post('/wallet/update', auth_mid.isUser, schema_mid.midUpdatewallet, wallet.updatewallet);
+router.get('/wallet/view', auth_mid.isUser, wallet.viewuserwallet);
 router.post('/transaksi/create', auth_mid.isUser, schema_mid.midTransaksi, transaksi.transaksi);
 router.get('/transaksi/view', auth_mid.isUser, transaksi.viewusertransaction);
 app.use('/api/v1', router);
