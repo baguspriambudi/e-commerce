@@ -14,7 +14,11 @@ const merchant_route = require('./route/merchant_router');
 const login = require('./route/login_route');
 const upgrade = require('./route/upgrade_route');
 const product = require('./route/product_route');
+<<<<<<< HEAD
 const wallet = require('./route/wallet_route');
+=======
+const transaksi = require('./route/transaksi_route');
+>>>>>>> 100d3173e705bb8d61271edb343e9065f0a7532e
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -48,7 +52,11 @@ router.post('/auth/login', login.login);
 router.post('/auth/user_upgrade', auth_mid.isAdmin, upgrade.upgrade_user);
 router.post('/merchant/create', auth_mid.isUser, schema_mid.midMercahnt, merchant_route.createmerchant);
 router.post('/product/create', auth_mid.isUser, schema_mid.midProduct, product.createproduct);
+<<<<<<< HEAD
 router.post('/wallet', auth_mid.isUser, schema_mid.midWallet, wallet.wallet);
+=======
+router.post('/transaksi/create', auth_mid.isUser, schema_mid.midTransaksi, transaksi.transaksi);
+>>>>>>> 100d3173e705bb8d61271edb343e9065f0a7532e
 app.use('/api/v1', router);
 
 app.use((req, res, next) => {

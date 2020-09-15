@@ -76,3 +76,15 @@ exports.midWallet = (req, res, next) => {
   }
   next();
 };
+exports.midTransaksi = (req, res, next) => {
+  const schema = Joi.object({
+    product: Joi.string().required(),
+    pembeli: Joi.string().required(),
+  }).options({ abortEarly: false });
+
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return validasi_data_schema(res, error.details);
+  }
+  next();
+};
