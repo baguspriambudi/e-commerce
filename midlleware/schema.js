@@ -67,7 +67,7 @@ exports.midProduct = (req, res, next) => {
 
 exports.midWallet = (req, res, next) => {
   const schema = Joi.object({
-    dana: Joi.objectId().required(),
+    dana: Joi.number(),
   }).options({ abortEarly: false });
 
   const { error } = schema.validate(req.body);
