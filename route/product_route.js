@@ -13,12 +13,12 @@ const {
 exports.createproduct = async (req, res, next) => {
   try {
     const { name, image, descriptions, stock, merchant, price } = req.body;
-    const findmerchant = await Merchant.findOne({ _id: req.user._id });
+    const findmerchant = await Merchant.findOne({ _id: req.body.merchant });
     if (!findmerchant) {
       return data_notfound(res, 'merchant not found');
     }
     const user = await User.findOne({ _id: req.user._id });
-    if (user.premium != 'accept') {
+    if (user.premium != 'approced') {
       return validasi(res, 'the user has not been approced');
     }
     const product = await new Product({
