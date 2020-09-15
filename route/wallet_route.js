@@ -8,6 +8,7 @@ const {
   data_notfound,
   authorized,
 } = require('../helper/http_response');
+const { valid } = require('@hapi/joi');
 
 exports.wallet = async (req, res, next) => {
   try {
@@ -35,9 +36,16 @@ exports.updatewallet = async (req, res, next) => {
   try {
     const findwallet = await Wallet.findOne({ _id: req.query.id });
     if (!findwallet) {
-      data_notfound(res, 'Id wallet not found');
+      return data_notfound(res, 'Id wallet not found');
     }
-    const wallet = await Wallet.updateOne({ _id: findwallet }, { dana: +req.body.dana + +(+findwallet.dana) });
+    if (findwallet.user != req.user._id) {
+      return validasi(res, 'user not shame with id wallet');
+    }
+    const wallet = await Wallet.findOneAndUpdate(
+      { _id: findwallet },
+      { dana: +req.body.dana + +(+findwallet.dana) },
+      { new: true },
+    ).populate({ path: 'user', select: '-password' });
     respone_ok_data(res, 'fund succesfull added', wallet);
   } catch (error) {
     next(error);
