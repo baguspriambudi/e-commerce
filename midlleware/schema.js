@@ -67,7 +67,7 @@ exports.midProduct = (req, res, next) => {
 
 exports.midWallet = (req, res, next) => {
   const schema = Joi.object({
-    dana: Joi.number(),
+    dana: Joi.objectId().required(),
   }).options({ abortEarly: false });
 
   const { error } = schema.validate(req.body);
@@ -79,7 +79,6 @@ exports.midWallet = (req, res, next) => {
 exports.midTransaksi = (req, res, next) => {
   const schema = Joi.object({
     product: Joi.string().required(),
-    pembeli: Joi.string().required(),
   }).options({ abortEarly: false });
 
   const { error } = schema.validate(req.body);
