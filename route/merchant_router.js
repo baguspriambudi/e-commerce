@@ -1,14 +1,25 @@
 const Merchant = require('../model/Merchant');
 const User = require('../model/User');
-const { respone_ok_data, validasi_data, forbidden, data_notfound, authorized } = require('../helper/http_response');
+const {
+  respone_ok_data,
+  validasi_data,
+  forbidden,
+  data_notfound,
+  authorized,
+  validasi,
+} = require('../helper/http_response');
 
 exports.createmerchant = async (req, res, next) => {
   try {
     const user = req.user._id;
     const { name, description, name_bank, rekening } = req.body;
     const finduser = await User.findOne({ _id: user });
+    const findmerchant = await Merchant.findOne({ user: user });
     if (!finduser) {
-      data_notfound(res, 'user not found');
+      return data_notfound(res, 'user not found');
+    }
+    if (findmerchant) {
+      return validasi(res, 'user has have a merchant');
     }
     const merchant = await new Merchant({
       user: user,
