@@ -14,6 +14,7 @@ const merchant_route = require('./route/merchant_router');
 const login = require('./route/login_route');
 const upgrade = require('./route/upgrade_route');
 const product = require('./route/product_route');
+const transaksi = require('./route/transaksi_route');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -47,6 +48,7 @@ router.post('/auth/login', login.login);
 router.post('/auth/user_upgrade', auth_mid.isAdmin, upgrade.upgrade_user);
 router.post('/merchant/create', auth_mid.isUser, schema_mid.midMercahnt, merchant_route.createmerchant);
 router.post('/product/create', auth_mid.isUser, schema_mid.midProduct, product.createproduct);
+router.post('/transaksi/create', auth_mid.isUser, schema_mid.midTransaksi, transaksi.transaksi);
 app.use('/api/v1', router);
 
 app.use((req, res, next) => {
