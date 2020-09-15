@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 Joi.objectId = require('joi-objectid')(Joi);
-const { validasi_data } = require('../helper/http_response');
+const { validasi_data_schema } = require('../helper/http_response');
 
 exports.midRegister = (req, res, next) => {
   const schema = Joi.object({
@@ -10,7 +10,7 @@ exports.midRegister = (req, res, next) => {
 
   const { error } = schema.validate(req.body);
   if (error) {
-    return validasi_data(res, 'Validation Error', error.details);
+    return validasi_data_schema(res, error.details);
   }
   next();
 };
@@ -25,7 +25,7 @@ exports.midMercahnt = (req, res, next) => {
 
   const { error } = schema.validate(req.body);
   if (error) {
-    return validasi_data(res, 'Validation Error', error.details);
+    return validasi_data_schema(res, error.details);
   }
   next();
 };
@@ -36,14 +36,14 @@ exports.midUpgradeUser = (req, res, next) => {
   }).options({ abortEarly: false });
   const { error } = schema.validate(req.body);
   if (error) {
-    return validasi_data(res, 'Validation Error', error.details);
+    return validasi_data_schema(res, error.details);
   }
   const schema2 = Joi.object({
     id: Joi.objectId().required(),
   }).options({ abortEarly: false });
   const isvalid2 = schema2.validate(req.query);
   if (isvalid2.error) {
-    return validasi_data(res, 'Validation Error', error.details);
+    return validasi_data_schema(res, error.details);
   }
   next();
 };
@@ -60,7 +60,7 @@ exports.midProduct = (req, res, next) => {
 
   const { error } = schema.validate(req.body);
   if (error) {
-    return validasi_data(res, 'Validation Error', error.details);
+    return validasi_data_schema(res, error.details);
   }
   next();
 };

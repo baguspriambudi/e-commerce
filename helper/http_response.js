@@ -23,6 +23,15 @@ exports.validasi_data = (res, msg, error) => {
   });
 };
 
+//validasi schema
+exports.validasi_data_schema = (res, error) => {
+  res.status(400).json({
+    status: 400,
+    message: 'Validation Error',
+    error: error,
+  });
+};
+
 // mengecek apakah bener apa nggak email atau password atau token
 exports.authorized = (res, msg) => {
   res.status(401).json({
