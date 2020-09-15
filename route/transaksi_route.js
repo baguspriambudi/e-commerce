@@ -32,7 +32,7 @@ exports.transaksi = async (req, res, next) => {
     if (find_product.price > wallet_pembeli.dana) {
       return validasi(res, 'dana is not enough');
     }
-    const create_transaksi = await await new Transaksi({ product: product, pembeli: pembeli, tgl: tgl }).save();
+    const create_transaksi = await new Transaksi({ product: product, pembeli: pembeli, tgl: tgl }).save();
     const merchant = await Merchant.findOne({ _id: find_product.merchant });
     const wallet_merchant = await Wallet.findOne({ user: merchant.user });
     if (create_transaksi) {
