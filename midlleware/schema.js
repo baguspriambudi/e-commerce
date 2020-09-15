@@ -76,9 +76,10 @@ exports.midWallet = (req, res, next) => {
   }
   next();
 };
+
 exports.midTransaksi = (req, res, next) => {
   const schema = Joi.object({
-    product: Joi.string().required(),
+    product: Joi.objectId().required(),
   }).options({ abortEarly: false });
 
   const { error } = schema.validate(req.body);
