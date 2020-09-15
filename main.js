@@ -50,6 +50,7 @@ router.post('/auth/user_upgrade', auth_mid.isAdmin, upgrade.upgrade_user);
 router.post('/merchant/create', auth_mid.isUser, schema_mid.midMercahnt, merchant_route.createmerchant);
 router.post('/product/create', auth_mid.isUser, schema_mid.midProduct, product.createproduct);
 router.post('/wallet', auth_mid.isUser, schema_mid.midWallet, wallet.wallet);
+router.post('/wallet/update', auth_mid.isUser, wallet.updatewallet);
 router.post('/transaksi/create', auth_mid.isUser, schema_mid.midTransaksi, transaksi.transaksi);
 app.use('/api/v1', router);
 
