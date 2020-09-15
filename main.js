@@ -52,6 +52,7 @@ router.post('/product/create', auth_mid.isUser, schema_mid.midProduct, product.c
 router.post('/wallet', auth_mid.isUser, schema_mid.midWallet, wallet.wallet);
 router.post('/wallet/update', auth_mid.isUser, schema_mid.midUpdatewallet, wallet.updatewallet);
 router.post('/transaksi/create', auth_mid.isUser, schema_mid.midTransaksi, transaksi.transaksi);
+router.get('/transaksi/view', auth_mid.isUser, transaksi.viewusertransaction);
 app.use('/api/v1', router);
 
 app.use((req, res, next) => {

@@ -32,7 +32,7 @@ exports.transaksi = async (req, res, next) => {
     if (find_product.price > wallet_pembeli.dana) {
       return validasi(res, 'dana is not enough');
     }
-    const create_transaksi = await new Transaksi({ product: product, pembeli: pembeli, tgl: tgl }).save();
+    const create_transaksi = await await new Transaksi({ product: product, pembeli: pembeli, tgl: tgl }).save();
     const merchant = await Merchant.findOne({ _id: find_product.merchant });
     const wallet_merchant = await Wallet.findOne({ user: merchant.user });
     if (create_transaksi) {
@@ -45,6 +45,15 @@ exports.transaksi = async (req, res, next) => {
       await Product.updateOne({ _id: req.body.product }, { stock: find_product.stock - 1 });
     }
     respone_ok_data(res, 'successfuly create your transaction', create_transaksi);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.viewusertransaction = async (req, res, next) => {
+  try {
+    const findtransaction = await Transaksi.find({ pembeli: req.user._id }).populate('product');
+    respone_ok_data(res, 'transaction founded', findtransaction);
   } catch (error) {
     next(error);
   }
