@@ -25,11 +25,14 @@ exports.transaksi = async (req, res, next) => {
     if (!find_product) {
       return data_notfound(res, 'product not found');
     }
-    //const create_transaksi = await new Transaksi({ product: product, pembeli: pembeli, tgl: tgl }).save();
+    if (find_product.stock == 0) {
+      return validasi(res, 'stock product empty');
+    }
+    const create_transaksi = await new Transaksi({ product: product, pembeli: pembeli, tgl: tgl }).save();
     const merchant = await Merchant.findOne({ _id: find_product.merchant });
     const wallet_merchant = await Wallet.findOne({ user: merchant.user });
     if (create_transaksi) {
-      await Wallet.updateOne({ _id: wallet_merchant._id }, { dana: find_product.price });
+      await Wallet.updateOne({ _id: wallet_merchant._id }, { dana: +find_product.price + +(+wallet_merchant.dana) });
     }
     if (create_transaksi) {
       await Product.updateOne({ _id: req.body.product }, { stock: find_product.stock - 1 });

@@ -19,7 +19,7 @@ exports.createproduct = async (req, res, next) => {
     }
     const user = await User.findOne({ _id: req.user._id });
     if (user.premium != 'accept') {
-      return validasi(res, 'the user has not been approced');
+      return validasi(res, 'the user has not been accept');
     }
     const product = await new Product({
       name: name,
