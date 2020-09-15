@@ -36,13 +36,9 @@ exports.transaksi = async (req, res, next) => {
     const merchant = await Merchant.findOne({ _id: find_product.merchant });
     const wallet_merchant = await Wallet.findOne({ user: merchant.user });
     if (create_transaksi) {
-      await Wallet.updateOne({ _id: wallet_merchant._id }, { dana: +find_product.price + +(+wallet_merchant.dana) });
-    }
-    if (create_transaksi) {
-      await Wallet.updateOne({ _id: wallet_pembeli._id }, { dana: wallet_pembeli.dana - find_product.price });
-    }
-    if (create_transaksi) {
-      await Product.updateOne({ _id: req.body.product }, { stock: find_product.stock - 1 });
+      await Wallet.updateOne({ _id: wallet_merchant._id }, { dana: +find_product.price + +(+wallet_merchant.dana) }),
+        await Wallet.updateOne({ _id: wallet_pembeli._id }, { dana: wallet_pembeli.dana - find_product.price }),
+        await Product.updateOne({ _id: req.body.product }, { stock: find_product.stock - 1 });
     }
     respone_ok_data(res, 'successfuly create your transaction', create_transaksi);
   } catch (error) {
