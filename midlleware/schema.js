@@ -88,3 +88,21 @@ exports.midTransaksi = (req, res, next) => {
   }
   next();
 };
+
+exports.midUpdatewallet = (req, res, next) => {
+  const schema = Joi.object({
+    dana: Joi.number().required(),
+  }).options({ abortEarly: false });
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return validasi_data_schema(res, error.details);
+  }
+  const schema2 = Joi.object({
+    id: Joi.objectId().required(),
+  }).options({ abortEarly: false });
+  const isvalid2 = schema2.validate(req.query);
+  if (isvalid2.error) {
+    return validasi_data_schema(res, error.details);
+  }
+  next();
+};
