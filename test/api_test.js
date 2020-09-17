@@ -190,8 +190,43 @@ describe('API Test', () => {
   describe('POST /api/v1/product/create', () => {
     it('should return error validation token', async () => {
       try {
-        const res1 = await chai.request(server).post('/api/v1/product/create');
-        expect(res1.status).to.equal(403);
+        const res = await chai.request(server).post('/api/v1/product/create');
+        expect(res.status).to.equal(403);
+        expect(res.body.status).to.equal(403);
+        expect(res.body.message).to.equal('please provide token');
+      } catch (error) {
+        throw error;
+      }
+    });
+    it('should return succes', async () => {
+      try {
+        await chai.request(server).post('/api/v1/auth/register/user').send({ username: 'wildan', password: '123123' });
+        const login = await chai
+          .request(server)
+          .post('/api/v1/auth/login')
+          .send({ username: 'wildan', password: '123123' });
+        const token = login.body.data;
+        const merchant = await chai
+          .request(server)
+          .post('/api/v1/merchant/create')
+          .set('Authorization', `Bearer ${token}`)
+          .send({ name: 'Toktoktok', description: 'hehe', name_bank: 'BRI', rekening: '9847923473' });
+        const idMerchant = merchant.body.data._id;
+        await User.updateOne({ username: 'wildan' }, { premium: 'accept' });
+        const res = await chai
+          .request(server)
+          .post('/api/v1/product/create')
+          .set('Authorization', `Bearer ${token}`)
+          .send({
+            name: 'sepatu',
+            image: 'ini gambar sepatu',
+            descriptions: 'sepatu mahal banget',
+            stock: 50,
+            merchant: idMerchant,
+            price: 50000,
+          });
+        console.log(res.body);
+        expect(res.status).to.equal(200);
       } catch (error) {
         throw error;
       }

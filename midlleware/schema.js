@@ -53,7 +53,7 @@ exports.midProduct = (req, res, next) => {
     name: Joi.string().required(),
     image: Joi.string().required(),
     descriptions: Joi.string().required(),
-    stock: Joi.string().required(),
+    stock: Joi.number().required(),
     merchant: Joi.objectId().required(),
     price: Joi.number().required(),
   }).options({ abortEarly: false });
