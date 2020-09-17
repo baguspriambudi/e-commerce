@@ -5,8 +5,8 @@ const { respone_ok_data, validasi, data_notfound } = require('../helper/http_res
 
 exports.createproduct = async (req, res, next) => {
   try {
-    const { name, image, descriptions, stock, merchant, price } = req.body;
-    const findmerchant = await Merchant.findOne({ _id: req.body.merchant });
+    const { name, image, descriptions, stock, price } = req.body;
+    const findmerchant = await Merchant.findOne({ user: req.user._id });
     if (!findmerchant) {
       return data_notfound(res, 'merchant not found');
     }
@@ -19,7 +19,7 @@ exports.createproduct = async (req, res, next) => {
       image: image,
       descriptions: descriptions,
       stock: stock,
-      merchant: merchant,
+      merchant: findmerchant._id,
       price: price,
     }).save();
     respone_ok_data(res, 'successfully create product', product);
