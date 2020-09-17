@@ -15,9 +15,6 @@ exports.createmerchant = async (req, res, next) => {
     const { name, description, name_bank, rekening } = req.body;
     const finduser = await User.findOne({ _id: user });
     const findmerchant = await Merchant.findOne({ user: user });
-    if (!finduser) {
-      return data_notfound(res, 'user not found');
-    }
     if (findmerchant) {
       return validasi(res, 'user has have a merchant');
     }

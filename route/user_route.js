@@ -13,7 +13,7 @@ const {
 
 exports.createuser = async (req, res, next) => {
   try {
-    const { username, password, role } = req.body;
+    const { username, password } = req.body;
     const finduser = await User.findOne({ username: username.toLowerCase() });
 
     if (finduser) {
@@ -23,7 +23,6 @@ exports.createuser = async (req, res, next) => {
     const user = await new User({
       username: username,
       password: passwordHash,
-      role: role,
     }).save();
     respone_ok_data(res, 'Data succesfully inputed', user);
   } catch (error) {

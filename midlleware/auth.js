@@ -1,7 +1,7 @@
 const JWT = require('jsonwebtoken');
 const JWTsecret = process.env.JWT_KEY;
 const User = require('../model/User');
-const { forbidden, authorized, validasi_data } = require('../helper/http_response');
+const { forbidden, authorized, validasi_data, data_notfound } = require('../helper/http_response');
 
 exports.isAdmin = async (req, res, next) => {
   try {
@@ -15,7 +15,10 @@ exports.isAdmin = async (req, res, next) => {
     req.user = decode;
 
     const admin = await User.findById({ _id: req.user._id });
-    if (!req.user._id || req.user.role != 'admin') {
+    if (!req.user._id) {
+      return data_notfound(res, 'User not found');
+    }
+    if (req.user.role != 'admin') {
       return authorized(res, 'User is not acces');
     }
     next();
@@ -36,7 +39,10 @@ exports.isUser = async (req, res, next) => {
     req.user = decode;
 
     const find = await User.findById({ _id: req.user._id });
-    if (!find || req.user.role != 'user') {
+    if (!find) {
+      return data_notfound(res, 'User not found');
+    }
+    if (req.user.role != 'user') {
       return authorized(res, 'User is not acces');
     }
     next();
