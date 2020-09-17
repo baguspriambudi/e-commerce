@@ -54,7 +54,6 @@ exports.midProduct = (req, res, next) => {
     image: Joi.string().required(),
     descriptions: Joi.string().required(),
     stock: Joi.number().required(),
-    merchant: Joi.objectId().required(),
     price: Joi.number().required(),
   }).options({ abortEarly: false });
 
@@ -80,6 +79,7 @@ exports.midWallet = (req, res, next) => {
 exports.midTransaksi = (req, res, next) => {
   const schema = Joi.object({
     product: Joi.objectId().required(),
+    qty: Joi.number().required(),
   }).options({ abortEarly: false });
 
   const { error } = schema.validate(req.body);

@@ -1,13 +1,12 @@
 const Transaksi = require('../model/Transaksi');
 const Product = require('../model/Product');
 const User = require('../model/User');
-const Wallet = require('../model/Wallet');
 const Merchant = require('../model/Merchant');
 const { respone_ok_data, validasi, data_notfound } = require('../helper/http_response');
 
 exports.transaksi = async (req, res, next) => {
   try {
-    const { product } = req.body;
+    const { product, qty } = req.body;
     const pembeli = req.user._id;
     const tgl = new Date();
     const find_pembeli = await User.findOne({ _id: pembeli });
@@ -21,17 +20,20 @@ exports.transaksi = async (req, res, next) => {
     if (find_product.stock === 0) {
       return validasi(res, 'stock product empty');
     }
-    const wallet_pembeli = await Wallet.findOne({ user: req.user._id });
-    if (find_product.price > wallet_pembeli.dana) {
+    const merchant = await Merchant.findOne({ _id: find_product.merchant });
+    const findUserInMerchant = await User.findOne({ _id: merchant.user });
+    const walletMerchant = findUserInMerchant.wallet;
+    const walletCustomer = find_pembeli.wallet;
+    // eslint-disable-next-line radix
+    const intPrice = parseInt(find_product.price);
+    if (find_product.price > walletCustomer) {
       return validasi(res, 'dana is not enough');
     }
-    const create_transaksi = await new Transaksi({ product: product, pembeli: pembeli, tgl: tgl }).save();
-    const merchant = await Merchant.findOne({ _id: find_product.merchant });
-    const wallet_merchant = await Wallet.findOne({ user: merchant.user });
+    const create_transaksi = await new Transaksi({ product: product, pembeli: pembeli, tgl: tgl, qty: qty }).save();
     if (create_transaksi) {
-      await Wallet.updateOne({ _id: wallet_merchant._id }, { dana: +find_product.price + +(+wallet_merchant.dana) });
-      await Wallet.updateOne({ _id: wallet_pembeli._id }, { dana: wallet_pembeli.dana - find_product.price });
-      await Product.updateOne({ _id: req.body.product }, { stock: find_product.stock - 1 });
+      await User.updateOne({ _id: findUserInMerchant._id }, { wallet: walletMerchant + intPrice });
+      await Product.updateOne({ _id: req.body.product }, { stock: find_product.stock - qty });
+      await User.updateOne({ _id: pembeli }, { wallet: find_pembeli.wallet - intPrice });
     }
     respone_ok_data(res, 'successfuly create your transaction', create_transaksi);
   } catch (error) {
