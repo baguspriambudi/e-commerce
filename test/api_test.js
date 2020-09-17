@@ -1,12 +1,16 @@
+/* eslint-disable node/no-unpublished-require */
+/* eslint-disable no-undef */
+/* eslint-disable no-useless-catch */
+
 process.env.NODE_ENV = 'test';
 process.env.MONGODB_URI = 'mongodb://localhost/test_ecommerce';
 
-const User = require('../model/User');
-const server = require('../main');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { expect } = require('chai');
 const mongoose = require('mongoose');
+const server = require('../main');
+const User = require('../model/User');
 
 chai.use(chaiHttp);
 
@@ -98,10 +102,7 @@ describe('API Test', () => {
           .post('/api/v1/auth/login')
           .send({ username: 'wildan', password: '123123' });
         const token = login.body.data;
-        const res = await chai
-          .request(server)
-          .post('/api/v1/merchant/create')
-          .set('Authorization', 'Bearer ' + token);
+        const res = await chai.request(server).post('/api/v1/merchant/create').set('Authorization', `Bearer ${token}`);
         expect(res.status).to.equal(400);
         expect(res.body.status).to.equal(400);
         expect(res.body.message).to.equal('Validation Error');
@@ -123,7 +124,7 @@ describe('API Test', () => {
         const res = await chai
           .request(server)
           .post('/api/v1/merchant/create')
-          .set('Authorization', 'Bearer ' + token)
+          .set('Authorization', `Bearer ${token}`)
           .send({ name: 'Toktoktok', description: 'hehe', name_bank: 'BRI', rekening: '9847923473' });
 
         expect(res.status).to.equal(404);
@@ -145,12 +146,12 @@ describe('API Test', () => {
         await chai
           .request(server)
           .post('/api/v1/merchant/create')
-          .set('Authorization', 'Bearer ' + token)
+          .set('Authorization', `Bearer ${token}`)
           .send({ name: 'Toktoktok', description: 'hehe', name_bank: 'BRI', rekening: '9847923473' });
         const res = await chai
           .request(server)
           .post('/api/v1/merchant/create')
-          .set('Authorization', 'Bearer ' + token)
+          .set('Authorization', `Bearer ${token}`)
           .send({ name: 'Toktoktok', description: 'hehe', name_bank: 'BRI', rekening: '9847923473' });
 
         expect(res.status).to.equal(400);
@@ -173,7 +174,7 @@ describe('API Test', () => {
         const res = await chai
           .request(server)
           .post('/api/v1/merchant/create')
-          .set('Authorization', 'Bearer ' + token)
+          .set('Authorization', `Bearer ${token}`)
           .send({ name: 'Toktoktok', description: 'hehe', name_bank: 'BRI', rekening: '9847923473' });
 
         expect(res.status).to.equal(200);
