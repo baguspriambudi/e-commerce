@@ -198,6 +198,23 @@ describe('API Test', () => {
         throw error;
       }
     });
+    it('should return error validation schema', async () => {
+      try {
+        await chai.request(server).post('/api/v1/auth/register/user').send({ username: 'wildan', password: '123123' });
+        const login = await chai
+          .request(server)
+          .post('/api/v1/auth/login')
+          .send({ username: 'wildan', password: '123123' });
+        const token = login.body.data;
+        const res = await chai.request(server).post('/api/v1/product/create').set('Authorization', `Bearer ${token}`);
+        expect(res.status).to.equal(400);
+        expect(res.body.status).to.equal(400);
+        expect(res.body.message).to.equal('Validation Error');
+        expect(res.body).to.have.property('error');
+      } catch (error) {
+        throw error;
+      }
+    });
     it('should return succes', async () => {
       try {
         await chai.request(server).post('/api/v1/auth/register/user').send({ username: 'wildan', password: '123123' });
@@ -225,8 +242,10 @@ describe('API Test', () => {
             merchant: idMerchant,
             price: 50000,
           });
-        console.log(res.body);
         expect(res.status).to.equal(200);
+        expect(res.body.status).to.equal(200);
+        expect(res.body.message).to.equal('successfully create product');
+        expect(res.body).to.have.property('data');
       } catch (error) {
         throw error;
       }
