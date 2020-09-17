@@ -1,12 +1,5 @@
 const User = require('../model/User');
-const {
-  respone_ok_data,
-  validasi,
-  validasi_data,
-  forbidden,
-  data_notfound,
-  authorized,
-} = require('../helper/http_response');
+const { respone_ok_data, data_notfound } = require('../helper/http_response');
 
 exports.upgrade_user = async (req, res, next) => {
   try {

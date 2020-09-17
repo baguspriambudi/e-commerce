@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const User = require('./User');
 
 const Walletschema = mongoose.Schema({
   dana: { type: Number, default: 0 },

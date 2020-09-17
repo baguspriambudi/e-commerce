@@ -1,19 +1,11 @@
 const Wallet = require('../model/Wallet');
 const User = require('../model/User');
-const {
-  respone_ok_data,
-  validasi,
-  validasi_data,
-  forbidden,
-  data_notfound,
-  authorized,
-} = require('../helper/http_response');
-const { valid } = require('@hapi/joi');
+const { respone_ok_data, validasi, data_notfound } = require('../helper/http_response');
 
 exports.wallet = async (req, res, next) => {
   try {
     const user = req.user._id;
-    const dana = req.body.dana;
+    const { dana } = req.body;
     const finduser = await User.findOne({ _id: user });
     if (!finduser) {
       return data_notfound(res, 'user not found');
@@ -38,7 +30,7 @@ exports.updatewallet = async (req, res, next) => {
     if (!findwallet) {
       return data_notfound(res, 'Id wallet not found');
     }
-    if (findwallet.user != req.user._id) {
+    if (findwallet.user !== req.user._id) {
       return validasi(res, 'user not shame with id wallet');
     }
     const wallet = await Wallet.findOneAndUpdate(

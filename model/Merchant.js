@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const User = require('./User');
 
 const Merchantschema = mongoose.Schema({
   user: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },

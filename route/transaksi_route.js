@@ -3,14 +3,7 @@ const Product = require('../model/Product');
 const User = require('../model/User');
 const Wallet = require('../model/Wallet');
 const Merchant = require('../model/Merchant');
-const {
-  respone_ok_data,
-  validasi,
-  validasi_data,
-  forbidden,
-  data_notfound,
-  authorized,
-} = require('../helper/http_response');
+const { respone_ok_data, validasi, data_notfound } = require('../helper/http_response');
 
 exports.transaksi = async (req, res, next) => {
   try {
@@ -25,7 +18,7 @@ exports.transaksi = async (req, res, next) => {
     if (!find_product) {
       return data_notfound(res, 'product not found');
     }
-    if (find_product.stock == 0) {
+    if (find_product.stock === 0) {
       return validasi(res, 'stock product empty');
     }
     const wallet_pembeli = await Wallet.findOne({ user: req.user._id });
@@ -36,9 +29,9 @@ exports.transaksi = async (req, res, next) => {
     const merchant = await Merchant.findOne({ _id: find_product.merchant });
     const wallet_merchant = await Wallet.findOne({ user: merchant.user });
     if (create_transaksi) {
-      await Wallet.updateOne({ _id: wallet_merchant._id }, { dana: +find_product.price + +(+wallet_merchant.dana) }),
-        await Wallet.updateOne({ _id: wallet_pembeli._id }, { dana: wallet_pembeli.dana - find_product.price }),
-        await Product.updateOne({ _id: req.body.product }, { stock: find_product.stock - 1 });
+      await Wallet.updateOne({ _id: wallet_merchant._id }, { dana: +find_product.price + +(+wallet_merchant.dana) });
+      await Wallet.updateOne({ _id: wallet_pembeli._id }, { dana: wallet_pembeli.dana - find_product.price });
+      await Product.updateOne({ _id: req.body.product }, { stock: find_product.stock - 1 });
     }
     respone_ok_data(res, 'successfuly create your transaction', create_transaksi);
   } catch (error) {

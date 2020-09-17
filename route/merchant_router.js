@@ -1,13 +1,6 @@
 const Merchant = require('../model/Merchant');
 const User = require('../model/User');
-const {
-  respone_ok_data,
-  validasi_data,
-  forbidden,
-  data_notfound,
-  authorized,
-  validasi,
-} = require('../helper/http_response');
+const { respone_ok_data, validasi } = require('../helper/http_response');
 
 exports.createmerchant = async (req, res, next) => {
   try {

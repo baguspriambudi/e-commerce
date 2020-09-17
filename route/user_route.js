@@ -1,15 +1,7 @@
-const JWT = require('jsonwebtoken');
-const JWT_Secret = process.env.JWT_KEY;
 const bcrypt = require('bcrypt');
 const User = require('../model/User');
-const {
-  respone_ok_data,
-  validasi,
-  validasi_data,
-  forbidden,
-  data_notfound,
-  authorized,
-} = require('../helper/http_response');
+
+const { respone_ok_data, validasi } = require('../helper/http_response');
 
 exports.createuser = async (req, res, next) => {
   try {

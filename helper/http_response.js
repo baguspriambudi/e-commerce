@@ -14,7 +14,7 @@ exports.validasi = (res, msg) => {
   });
 };
 
-//validasi with data error
+// validasi with data error
 exports.validasi_data = (res, msg, error) => {
   res.status(400).json({
     status: 400,
@@ -23,7 +23,7 @@ exports.validasi_data = (res, msg, error) => {
   });
 };
 
-//validasi schema
+// validasi schema
 exports.validasi_data_schema = (res, error) => {
   res.status(400).json({
     status: 400,

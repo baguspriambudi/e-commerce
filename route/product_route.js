@@ -1,14 +1,7 @@
 const Product = require('../model/Product');
 const User = require('../model/User');
 const Merchant = require('../model/Merchant');
-const {
-  respone_ok_data,
-  validasi,
-  validasi_data,
-  forbidden,
-  data_notfound,
-  authorized,
-} = require('../helper/http_response');
+const { respone_ok_data, validasi, data_notfound } = require('../helper/http_response');
 
 exports.createproduct = async (req, res, next) => {
   try {
@@ -18,7 +11,7 @@ exports.createproduct = async (req, res, next) => {
       return data_notfound(res, 'merchant not found');
     }
     const user = await User.findOne({ _id: req.user._id });
-    if (user.premium != 'accept') {
+    if (user.premium !== 'accept') {
       return validasi(res, 'the user has not been accept');
     }
     const product = await new Product({
