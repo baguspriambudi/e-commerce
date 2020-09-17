@@ -39,19 +39,6 @@ describe('API Test', () => {
       }
     });
 
-    it('should success register', async () => {
-      try {
-        const res = await chai
-          .request(server)
-          .post('/api/v1/auth/register/user')
-          .send({ username: 'wildan', password: '123123' });
-
-        expect(res.status).to.equal(200);
-      } catch (error) {
-        throw error;
-      }
-    });
-
     it('should error validation, username already exist', async () => {
       try {
         await chai.request(server).post('/api/v1/auth/register/user').send({ username: 'wildan', password: '123123' });
@@ -61,6 +48,19 @@ describe('API Test', () => {
           .send({ username: 'wildan', password: '123123' });
 
         expect(res.status).to.equal(400);
+      } catch (error) {
+        throw error;
+      }
+    });
+
+    it('should success register', async () => {
+      try {
+        const res = await chai
+          .request(server)
+          .post('/api/v1/auth/register/user')
+          .send({ username: 'wildan', password: '123123' });
+
+        expect(res.status).to.equal(200);
       } catch (error) {
         throw error;
       }
