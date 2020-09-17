@@ -43,7 +43,14 @@ exports.transaksi = async (req, res, next) => {
 
 exports.viewusertransaction = async (req, res, next) => {
   try {
-    const findtransaction = await Transaksi.find({ pembeli: req.user._id }).populate('product');
+    const findtransaction = await Transaksi.find({ pembeli: req.user._id })
+      .sort({ createdAt: -1 })
+      .populate({
+        path: 'product',
+        select: 'name',
+        populate: { path: 'merchant', populate: { path: 'user', select: '-password' } },
+      })
+      .populate({ path: 'pembeli', select: '-password' });
     respone_ok_data(res, 'transaction founded', findtransaction);
   } catch (error) {
     next(error);
