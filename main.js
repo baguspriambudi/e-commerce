@@ -1,9 +1,10 @@
 const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const PORT = 4000;
 const dotenv = require('dotenv');
+
+const app = express();
+const PORT = 4000;
 dotenv.config();
 
 const schema_mid = require('./midlleware/schema');
@@ -62,6 +63,7 @@ app.use((req, res, next) => {
   next(error);
 });
 
+// eslint-disable-next-line no-unused-vars
 app.use((error, req, res, next) => {
   res.status(error.status || 500).json({
     status: error.status || 500,
@@ -69,6 +71,6 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.listen(PORT, console.log('listening to PORT ' + PORT));
+app.listen(PORT, console.log(`listening to PORT ${PORT}`));
 
 module.exports = app;
