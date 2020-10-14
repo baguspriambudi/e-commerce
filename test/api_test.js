@@ -10,7 +10,6 @@ const chaiHttp = require('chai-http');
 const { expect } = require('chai');
 const mongoose = require('mongoose');
 const server = require('../main');
-const User = require('../model/User');
 
 chai.use(chaiHttp);
 
@@ -114,13 +113,8 @@ describe('API Test', () => {
 
     it('should error validation, username not found', async () => {
       try {
-        await chai.request(server).post('/api/v1/auth/register/user').send({ username: 'wildan', password: '123123' });
-        const login = await chai
-          .request(server)
-          .post('/api/v1/auth/login')
-          .send({ username: 'wildan', password: '123123' });
-        const token = login.body.data;
-        await User.deleteOne({ username: 'wildan' });
+        const token =
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjg2ZjIyYTMyMWY4OTExZjgxY2NlYjMiLCJyb2xlIjoidXNlciIsImlhdCI6MTYwMjY3OTMzOCwiZXhwIjoxNjAyNzY1NzM4fQ.f6FD8Rsfb1UXmpW2ZC29Yehm3BXrsjzmb0q93XXHJko';
         const res = await chai
           .request(server)
           .post('/api/v1/merchant/create')
@@ -217,7 +211,10 @@ describe('API Test', () => {
     });
     it('should return succes', async () => {
       try {
-        await chai.request(server).post('/api/v1/auth/register/user').send({ username: 'wildan', password: '123123' });
+        const user = await chai
+          .request(server)
+          .post('/api/v1/auth/register/user')
+          .send({ username: 'wildan', password: '123123' });
         const login = await chai
           .request(server)
           .post('/api/v1/auth/login')
@@ -229,7 +226,18 @@ describe('API Test', () => {
           .set('Authorization', `Bearer ${token}`)
           .send({ name: 'Toktoktok', description: 'hehe', name_bank: 'BRI', rekening: '9847923473' });
         const idMerchant = merchant.body.data._id;
-        await User.updateOne({ username: 'wildan' }, { premium: 'accept' });
+        await chai.request(server).post('/api/v1/auth/register/admin').send({ username: 'admin', password: '123123' });
+        const loginAdmin = await chai
+          .request(server)
+          .post('/api/v1/auth/login')
+          .send({ username: 'admin', password: '123123' });
+        const tokenAdmin = loginAdmin.body.data;
+        await chai
+          .request(server)
+          .post('/api/v1/auth/user/upgrade')
+          .set('Authorization', `Bearer ${tokenAdmin}`)
+          .query({ _id: user.body.data._id })
+          .send({ premium: 'accept' });
         const res = await chai
           .request(server)
           .post('/api/v1/product/create')

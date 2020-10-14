@@ -6,7 +6,6 @@ exports.createmerchant = async (req, res, next) => {
   try {
     const user = req.user._id;
     const { name, description, name_bank, rekening } = req.body;
-    const finduser = await User.findOne({ _id: user });
     const findmerchant = await Merchant.findOne({ user: user });
     if (findmerchant) {
       return validasi(res, 'user has have a merchant');
@@ -19,7 +18,7 @@ exports.createmerchant = async (req, res, next) => {
       rekening: rekening,
     }).save();
     if (merchant) {
-      await User.updateOne({ _id: finduser }, { premium: 'pending' });
+      await User.updateOne({ _id: user }, { premium: 'pending' });
     }
     respone_ok_data(res, 'Data merchant succesfull inputed, wait confirm from admin', merchant);
   } catch (error) {
